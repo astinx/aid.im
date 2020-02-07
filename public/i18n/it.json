@@ -1,0 +1,11 @@
+{
+  "title":              "aid.im | Gestione accorciamento URL e collegamenti",
+  "text.url_shortener": "URL Shortener",
+  "text.enter_url":     "Inserisci il link",
+  "text.shorten":       "Accorcia",
+  "text.download":      "Download",
+  "text.copy":          "copia",
+  "text.copied":        "copiato",
+  "text.close":         "chiudi",
+  "text.alert":         "mettere in guardia"
+}

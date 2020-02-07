@@ -1,0 +1,11 @@
+{
+  "title":              "aid.im | リンク短縮ツール",
+  "text.url_shortener": "URL短縮サービス",
+  "text.enter_url":     "長いリンクを入力",
+  "text.shorten":       "短縮",
+  "text.download":      "ダウンロード",
+  "text.copy":          "コピー",
+  "text.copied":        "コピー済み",
+  "text.close":         "閉じる",
+  "text.alert":         "警戒"
+}

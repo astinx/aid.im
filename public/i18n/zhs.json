@@ -1,0 +1,11 @@
+{
+  "title":              "aid.im | URL缩短器,短链接生成,链接管理",
+  "text.url_shortener": "URL缩短器",
+  "text.enter_url":     "输入长链接",
+  "text.shorten":       "缩短",
+  "text.download":      "下载",
+  "text.copy":          "复制",
+  "text.copied":        "已复制",
+  "text.close":         "关闭",
+  "text.alert":         "提示"
+}

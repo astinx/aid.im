@@ -1,0 +1,11 @@
+{
+  "title":              "aid.im | URL Shortener, Short Link Generator, Link Management",
+  "text.url_shortener": "raccourcisseur d'URL",
+  "text.enter_url":     "Entrez un lien long",
+  "text.shorten":       "Raccourci",
+  "text.download":      "Télécharger",
+  "text.copy":          "Copier",
+  "text.copied":        "Copié",
+  "text.close":         "Fermer",
+  "text.alert":         "Alerte"
+}

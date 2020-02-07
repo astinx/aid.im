@@ -1,0 +1,11 @@
+{
+  "title":              "aid.im | URL 단축기, 짧은 링크 생성, 링크 관리",
+  "text.url_shortener": "URL 단축기",
+  "text.enter_url":     "긴 링크 입력",
+  "text.shorten":       "줄이다",
+  "text.download":      "다운로드",
+  "text.copy":          "복사",
+  "text.copied":        "복사",
+  "text.close":         "닫기",
+  "text.alert":         "경보"
+}

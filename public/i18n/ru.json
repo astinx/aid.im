@@ -1,0 +1,11 @@
+{
+  "title":              "aid.im | URL Shortener, создание коротких ссылок, управление ссылками",
+  "text.url_shortener": "Сокращенный URL",
+  "text.enter_url":     "Введите длинную ссылку",
+  "text.shorten":       "Сокращенный",
+  "text.download":      "Скачать",
+  "text.copy":          "Копировать",
+  "text.copied":        "Copyed",
+  "text.close":         "Закрыть",
+  "text.alert":         "бдительный"
+}

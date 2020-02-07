@@ -1,0 +1,11 @@
+{
+  "title":              "aid.im | Acortador de URL y gestión de enlaces",
+  "text.url_shortener": "Acortador de URL",
+  "text.enter_url":     "Ingrese el enlace",
+  "text.shorten":       "Acortar",
+  "text.download":      "Descargar",
+  "text.copy":          "copia",
+  "text.copied":        "copiado",
+  "text.close":         "cerrar",
+  "text.alert":         "alerta"
+}
