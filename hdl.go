@@ -13,12 +13,12 @@ type Resp struct {
 	Data interface{} `json:"data"`
 }
 
-// 首页
+// home page
 func hdlHome(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/index.html", http.StatusMovedPermanently)
 }
 
-// 获取并跳转短链接
+// get link
 func hdlGet(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 	if id == "" {
@@ -29,7 +29,7 @@ func hdlGet(w http.ResponseWriter, r *http.Request) {
 		ShowNotFound(w)
 		return
 	}
-	// 增加统计信息
+	// update statistics
 	go dbUrlUpdate(id)
 	go dbStaAdd(1, 0)
 	if l.Code == 200 {
@@ -43,7 +43,7 @@ func hdlGet(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, l.Scheme+"://"+l.Url, l.Code)
 }
 
-// 删除过期数据
+// del expire data
 func hdlDel(w http.ResponseWriter, r *http.Request) {
 	dbUrlDel()
 	ShowNotFound(w)
@@ -63,7 +63,7 @@ func hdlStatistic(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-// todo 生成一条短链接
+// add a new one link
 func hdlAdd(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	rawUrl := strings.Trim(r.Form.Get("url"), "/")
@@ -80,15 +80,14 @@ func hdlAdd(w http.ResponseWriter, r *http.Request) {
 		resp(w, 400, "nonsupport type code", nil)
 		return
 	}
-	// 判断url是否正确
 	if IsURL(rawUrl) {
-		//是否与当前host一致
+		//is same with current host
 		l, err := url.Parse(rawUrl)
 		if err != nil || l.Host == opts.Host {
 			resp(w, 400, "invalid url", nil)
 			return
 		}
-	} else if IsApp(rawUrl) { // 判断是否APP链接
+	} else if IsApp(rawUrl) { // is app link
 		rawCode = "200"
 	} else {
 		resp(w, 400, "invalid url", nil)

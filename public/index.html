@@ -2,135 +2,137 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1,minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title i18n="title">aid.im | URL Shortener & Link Management</title>
-    <link href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
-    <style>
-        html, body{height:100%;}
-        body{display:-ms-flexbox;display:-webkit-box;display:flex;-ms-flex-align:center;-ms-flex-pack:center;-webkit-box-align:center; /* align-items: center; */-webkit-box-pack:center;justify-content:center;padding-bottom:40px;background-color:#fff;background-attachment:fixed;background-size:cover;background-position:center;}
-        .form-signin{width:100%;max-width:790px;padding:15px;margin:10% auto;position:absolute;}
-        .form-signin .form-control{position:relative;box-sizing:border-box;height:auto;padding:10px;font-size:16px;border:none;}
-        .form-control:focus{outline:0;box-shadow:inset 0 0 3px 0.2rem rgba(255, 170, 0, .25);}
-        input{text-align:center;border-radius:20px 0 0 20px !important;}
-        .out-frame{border-radius:20px;overflow:hidden;box-shadow:0 0 25px rgba(0, 0, 0, 0.2);opacity:0.98;}
-        .btn-g{background:linear-gradient(40deg, #ffd86f, #fc6262);border:none;border-radius:0 20px 20px 0 !important;color:#fff;}
-        .t-shadow{text-shadow:0 0 5px rgb(0, 0, 0);color:#fff}
-        .shorten-box{width:98%;max-width:500px;}
-        header{width:100%;}
-        .btn.disabled, .btn[disabled], fieldset[disabled] .btn{cursor:not-allowed;background:gray;}
-        @media (max-width:768px){  .form-signin{margin:30% auto;}  }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1,minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title i18n="title">aid.im | URL Shortener & Link Management</title>
+  <link href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
+  <style>
+    html, body{height:100%;}
+    body{display:-ms-flexbox;display:-webkit-box;display:flex;-ms-flex-align:center;-ms-flex-pack:center;-webkit-box-align:center; /* align-items: center; */-webkit-box-pack:center;justify-content:center;padding-bottom:40px;background-color:#fff;background-attachment:fixed;background-size:cover;background-position:center;}
+    .form-signin{width:100%;max-width:790px;padding:15px;margin:10% auto;position:absolute;}
+    .form-signin .form-control{position:relative;box-sizing:border-box;height:auto;padding:10px;font-size:16px;border:none;}
+    .form-control:focus{outline:0;box-shadow:inset 0 0 3px 0.2rem rgba(255, 170, 0, .25);}
+    input{text-align:center;border-radius:20px 0 0 20px !important;}
+    .out-frame{border-radius:20px;overflow:hidden;box-shadow:0 0 25px rgba(0, 0, 0, 0.2);opacity:0.98;}
+    .btn-g{background:linear-gradient(40deg, #ffd86f, #fc6262);border:none;border-radius:0 20px 20px 0 !important;color:#fff;}
+    .t-shadow{text-shadow:0 0 5px rgb(0, 0, 0);color:#fff}
+    .shorten-box{width:98%;max-width:500px;}
+    header{width:100%;}
+    .btn.disabled, .btn[disabled], fieldset[disabled] .btn{cursor:not-allowed;background:gray;}
+    @media (max-width:768px){  .form-signin{margin:30% auto;}  }
+  </style>
 </head>
 
 <body class="container-fluid p-0 m-0">
 <header class="navbar navbar-expand-sm navbar-dark fixed-top">
-    <a class="navbar-brand" href="#">AID.IM</a>
-    <button class="btn btn-success ml-auto mr-1" type="button" data-toggle="modal" data-target="#apiModal">API</button>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"><span class="navbar-toggler-icon"></span></button>
-    <div class="collapse navbar-collapse flex-grow-0" id="navbarSupportedContent">
-        <ul class="navbar-nav text-right">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle showLang" href="javascript:;" id="lang-picker" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="lang-picker">
-                    <a class="dropdown-item" href="javascript:;" data-lang="ar" onclick="setLang(this)"><span class="flag-icon flag-icon-ar"></span> العربية</a>
-                    <a class="dropdown-item" href="javascript:;" data-lang="fr" onclick="setLang(this)"><span class="flag-icon flag-icon-fr"></span> Français</a>
-                    <a class="dropdown-item" href="javascript:;" data-lang="it" onclick="setLang(this)"><span class="flag-icon flag-icon-it"></span> Italiano</a>
-                    <a class="dropdown-item" href="javascript:;" data-lang="ru" onclick="setLang(this)"><span class="flag-icon flag-icon-ru"></span> Pусский</a>
-                    <a class="dropdown-item" href="javascript:;" data-lang="en" onclick="setLang(this)"><span class="flag-icon flag-icon-us"></span> English</a>
-                    <a class="dropdown-item" href="javascript:;" data-lang="zhs" onclick="setLang(this)"><span class="flag-icon flag-icon-cn"></span> 简体中文</a>
-                    <a class="dropdown-item" href="javascript:;" data-lang="zht" onclick="setLang(this)"><span class="flag-icon flag-icon-hk"></span> 繁體中文</a>
-                    <a class="dropdown-item" href="javascript:;" data-lang="ja" onclick="setLang(this)"><span class="flag-icon flag-icon-jp"></span> 日本語</a>
-                    <a class="dropdown-item" href="javascript:;" data-lang="ko" onclick="setLang(this)"><span class="flag-icon flag-icon-kr"></span> 한국어</a>
-                    <a class="dropdown-item" href="javascript:;" data-lang="de" onclick="setLang(this)"><span class="flag-icon flag-icon-de"></span> Deutsch</a>
-                    <a class="dropdown-item" href="javascript:;" data-lang="es" onclick="setLang(this)"><span class="flag-icon flag-icon-es"></span> Español</a>
-                    <a class="dropdown-item" href="javascript:;" data-lang="pt" onclick="setLang(this)"><span class="flag-icon flag-icon-pt"></span> Português</a>
-                </div>
-            </li>
-        </ul>
-    </div>
+  <a class="navbar-brand" href="#">AID.IM</a>
+  <button class="btn btn-success ml-auto mr-1" type="button" data-toggle="modal" data-target="#apiModal">API</button>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"><span class="navbar-toggler-icon"></span></button>
+  <div class="collapse navbar-collapse flex-grow-0" id="navbarSupportedContent">
+    <ul class="navbar-nav text-right">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle showLang" href="javascript:;" id="lang-picker" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="lang-picker">
+          <a class="dropdown-item" href="javascript:;" data-lang="ar" onclick="setLang(this)"><span class="flag-icon flag-icon-ar"></span> العربية</a>
+          <a class="dropdown-item" href="javascript:;" data-lang="fr" onclick="setLang(this)"><span class="flag-icon flag-icon-fr"></span> Français</a>
+          <a class="dropdown-item" href="javascript:;" data-lang="it" onclick="setLang(this)"><span class="flag-icon flag-icon-it"></span> Italiano</a>
+          <a class="dropdown-item" href="javascript:;" data-lang="ru" onclick="setLang(this)"><span class="flag-icon flag-icon-ru"></span> Pусский</a>
+          <a class="dropdown-item" href="javascript:;" data-lang="en" onclick="setLang(this)"><span class="flag-icon flag-icon-us"></span> English</a>
+          <a class="dropdown-item" href="javascript:;" data-lang="zhs" onclick="setLang(this)"><span class="flag-icon flag-icon-cn"></span> 简体中文</a>
+          <a class="dropdown-item" href="javascript:;" data-lang="zht" onclick="setLang(this)"><span class="flag-icon flag-icon-hk"></span> 繁體中文</a>
+          <a class="dropdown-item" href="javascript:;" data-lang="ja" onclick="setLang(this)"><span class="flag-icon flag-icon-jp"></span> 日本語</a>
+          <a class="dropdown-item" href="javascript:;" data-lang="ko" onclick="setLang(this)"><span class="flag-icon flag-icon-kr"></span> 한국어</a>
+          <a class="dropdown-item" href="javascript:;" data-lang="de" onclick="setLang(this)"><span class="flag-icon flag-icon-de"></span> Deutsch</a>
+          <a class="dropdown-item" href="javascript:;" data-lang="es" onclick="setLang(this)"><span class="flag-icon flag-icon-es"></span> Español</a>
+          <a class="dropdown-item" href="javascript:;" data-lang="pt" onclick="setLang(this)"><span class="flag-icon flag-icon-pt"></span> Português</a>
+        </div>
+      </li>
+    </ul>
+  </div>
 </header>
 <div class="text-center form-signin">
-        <!-- <img class="mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72"> -->
-        <h1 class="mb-3 font-weight-normal t-shadow" i18n="text.url_shortener">URL Shortener</h1>
-        <div class="input-group mb-3 out-frame">
-            <input type="text" name="url" id="url-text" class="form-control" i18n-only="placeholder" onkeypress="if(event.keyCode===13){return addUrl()}" i18n="text.enter_url" placeholder="Enter the link" autocomplete="off">
-            <div class="input-group-append"><button class="btn btn-info btn-g" type="button" id="url-btn" onclick="addUrl()" i18n="text.shorten" disabled="true">Shorten</button></div>
-        </div>
-    <div id="showQr" style="display: none;">
-        <div id="qrcode"></div>
-        <a class="btn btn-small btn-info" id="download-qrcode" href="javascript:;" onclick="downloadQRCode()" i18n="text.download">Download</a>
-        <p class="mt-5 mb-3 t-shadow" i18n=""><div id="shorten-input" class="input-group mb-3 out-frame shorten-box">
-            <input id="tinyUrl" type="text" class="form-control" placeholder="Shorten Link" i18n-only="placeholder" readonly value="">
-            <div class="input-group-append"><button class="btn btn-info btn-g" type="button" id="copy-link" data-clipboard-target="#tinyUrl" onclick="copyTarget(this.id)" i18n="text.copy">copy</button></div>
-        </div></p>
+    <!-- <img class="mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72"> -->
+    <h1 class="mb-3 font-weight-normal t-shadow" i18n="text.url_shortener">URL Shortener</h1>
+    <div class="input-group mb-3 out-frame">
+      <input type="text" name="url" id="url-text" class="form-control" i18n-only="placeholder" onkeypress="if(event.keyCode===13){return addUrl()}" i18n="text.enter_url" placeholder="Enter the link" autocomplete="off">
+      <div class="input-group-append"><button class="btn btn-info btn-g" type="button" id="url-btn" onclick="addUrl()" i18n="text.shorten" disabled="true">Shorten</button></div>
     </div>
-    <p class="mt-5 mb-3 t-shadow">Copyright © AID.IM 2019 | aston.x(a)outlook.com</p>
+  <div id="showQr" style="display: none;">
+    <div id="qrcode"></div>
+    <a class="btn btn-small btn-info" id="download-qrcode" href="javascript:;" onclick="downloadQRCode()" i18n="text.download">Download</a>
+    <p class="mt-5 mb-3 t-shadow" i18n=""><div id="shorten-input" class="input-group mb-3 out-frame shorten-box">
+      <input id="tinyUrl" type="text" class="form-control" placeholder="Shorten Link" i18n-only="placeholder" readonly value="">
+      <div class="input-group-append"><button class="btn btn-info btn-g" type="button" id="copy-link" data-clipboard-target="#tinyUrl" onclick="copyTarget(this.id)" i18n="text.copy">copy</button></div>
+    </div></p>
+  </div>
+  <p class="mt-5 mb-3 t-shadow">Copyright © AID.IM 2019 | aston.x(a)outlook.com</p>
 </div>
 
 <!-- ALERT -->
 <div class="modal" id="alert-modal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title text-danger" i18n="text.alert">Alert</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            </div>
-            <div class="modal-body text-center text-danger font-weight-bold" id="alert-text"></div>
-            <div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal" i18n="text.close">Close</button></div>
-        </div>
+  <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-danger" i18n="text.alert">Alert</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body text-center text-danger font-weight-bold" id="alert-text"></div>
+      <div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal" i18n="text.close">Close</button></div>
     </div>
+  </div>
 </div>
 <!-- ALERT END -->
 <!-- API MODAL -->
 <div class="modal" id="apiModal" tabindex="-1" role="dialog" aria-labelledby="apiModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="apiModalLabel">API</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            </div>
-            <div class="modal-body"><h4>Request Method</h4>
-                <blockquote class="bg-dark text-white">GET/POST</blockquote>
-                <h4>Address</h4>
-                <blockquote class="bg-dark text-white">https://aid.im/api</blockquote>
-                <h4>request data type</h4>
-                <blockquote class="bg-dark text-white">form</blockquote>
-                <h4>ex:</h4>
-                <blockquote class="bg-dark text-white">code=200&amp;url=http://google.com</blockquote>
-                <table class="table table-sm table-striped table-dark table-responsive">
-                    <thead>
-                    <tr>
-                        <th class="text-center">PARAMETER</th>
-                        <th class="text-center">TYPE</th>
-                        <th class="text-center">REQUIRED</th>
-                        <th class="text-center">MEMO</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td class="text-center">url</td>
-                        <td class="text-center">string</td>
-                        <td class="text-center">Y</td>
-                        <td class="text-center">max length &lt; 2083</td>
-                    </tr>
-                    <tr>
-                        <td class="text-center">code</td>
-                        <td class="text-center">string</td>
-                        <td class="text-center">Y</td>
-                        <td class="text-center">http status code, accept 301, 302, 303, 307 and 200</td>
-                    </tr>
-                    </tbody>
-                </table>
-                <div>* 200 code will use js "window.location.href" to redirect, http,https,ftp,tcp,udp,wss support all code.app links or universal links only accept 200 to open, ex: myapp://</div>
-                <h4>Support App links</h4>
-                <blockquote class="bg-dark text-white"><p>whatsapp://send?text={your text}</p></blockquote>
-                <div><span class="text-danger">WARNING:</span> your shortened link will be delete if 30 days without any visit</div>
-            </div>
-            <div class="modal-footer"><button type="button" class="btn btn-info" data-dismiss="modal">OK</button></div>
-        </div>
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="apiModalLabel">API</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body"><h4>Request Method</h4>
+        <blockquote class="bg-dark text-white">GET/POST</blockquote>
+        <h4>Address</h4>
+        <blockquote class="bg-dark text-white">https://aid.im/api</blockquote>
+        <h4>request data type</h4>
+        <blockquote class="bg-dark text-white">form</blockquote>
+        <h4>ex:</h4>
+        <blockquote class="bg-dark text-white">code=200&amp;url=http://google.com</blockquote>
+        <table class="table table-sm table-striped table-dark table-responsive">
+          <thead>
+          <tr>
+            <th class="text-center">PARAMETER</th>
+            <th class="text-center">TYPE</th>
+            <th class="text-center">REQUIRED</th>
+            <th class="text-center">MEMO</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td class="text-center">url</td>
+            <td class="text-center">string</td>
+            <td class="text-center">Y</td>
+            <td class="text-center">max length &lt; 2083</td>
+          </tr>
+          <tr>
+            <td class="text-center">code</td>
+            <td class="text-center">string</td>
+            <td class="text-center">Y</td>
+            <td class="text-center">http status code, accept 301, 302, 303, 307 and 200</td>
+          </tr>
+          </tbody>
+        </table>
+        <div>* 200 code will use js "window.location.href" to redirect, http,https,ftp,tcp,udp,wss support all code.app links or universal links only accept 200 to open, ex: myapp://</div>
+        <h4>Support App links</h4>
+        <blockquote class="bg-dark text-white"><p>whatsapp://send?text={your text}</p></blockquote>
+        <div><span class="text-danger">WARNING:</span> your shortened link will be delete if 30 days without any visit</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" data-dismiss="modal">OK</button>
+      </div>
     </div>
+  </div>
 </div>
 <!-- API MODAL END -->
 </body>
@@ -141,75 +143,75 @@
 <script src="https://cdn.staticfile.org/clipboard.js/2.0.4/clipboard.min.js"></script>
 
 <script>
-    $(window).resize(function () {copyForm()});
-    copyForm();
-    function copyForm() {let i = $('#shorten-input');i.css('left', 'calc(50% - ' + i.width() / 2 + 'px)')}
-    // copy target
-    function copyTarget(targetId) {targetId = '#' + targetId;targetText = $(targetId).html();clipboard = new ClipboardJS(targetId);clipboard.on('success', function (e) {$(targetId).html('copied').prop('disabled', true);setTimeout(function () {$(targetId).html(targetText).prop('disabled', false);}, 1000);e.clearSelection()});}
+  $(window).resize(function () {copyForm()});
+  copyForm();
+  function copyForm() {let i = $('#shorten-input');i.css('left', 'calc(50% - ' + i.width() / 2 + 'px)')}
+  // copy target
+  function copyTarget(targetId) {targetId = '#' + targetId;targetText = $(targetId).html();clipboard = new ClipboardJS(targetId);clipboard.on('success', function (e) {$(targetId).html('copied').prop('disabled', true);setTimeout(function () {$(targetId).html(targetText).prop('disabled', false);}, 1000);e.clearSelection()});}
 
-    // download qrcode
-    function downloadQRCode() {let url = $('#qrcode').find('canvas')[0].toDataURL('image/png');let downloadLink = $('#download-qrcode').attr("href", url).attr("download", 'qrcode_' + new Date().valueOf() + '.png');downloadLink[0].click();}
-    // set language
-    setLang();
-    function setLang(i = undefined) {
-        let lng = localStorage.getItem('locale') ? localStorage.getItem('locale') : getBrowserLang();
-        let lngArr = [];
-        lngArr['ar'] = {'icon': 'ar', 'lang': 'العربية'};
-        lngArr['fr'] = {'icon': 'fr', 'lang': 'Français'};
-        lngArr['it'] = {'icon': 'it', 'lang': 'Italiano'};
-        lngArr['ru'] = {'icon': 'ru', 'lang': 'Pусский'};
-        lngArr['en'] = {'icon': 'us', 'lang': 'English'};
-        lngArr['ja'] = {'icon': 'jp', 'lang': '日本語'};
-        lngArr['ko'] = {'icon': 'kr', 'lang': '한국어'};
-        lngArr['de'] = {'icon': 'de', 'lang': 'Deutsch'};
-        lngArr['es'] = {'icon': 'es', 'lang': 'Español'};
-        lngArr['pt'] = {'icon': 'pt', 'lang': 'Português'};
-        lngArr['zhs'] = {'icon': 'cn', 'lang': '简体中文'};
-        lngArr['zht'] = {'icon': 'hk', 'lang': '繁體中文'};
-        lng = i ? $(i).attr('data-lang') : (lngArr[lng] ? lng : 'en');
-        $('.showLang').html('<span class="flag-icon flag-icon-' + lngArr[lng].icon + '"></span> ' + lngArr[lng].lang + '</a>');
-        localStorage.setItem('locale', lng);
-        $("[i18n]").i18n({defaultLang: lng, filePath: "./i18n/", filePrefix: "", fileSuffix: "", forever: true, callback: function () {}});
-    }
+  // download qrcode
+  function downloadQRCode() {let url = $('#qrcode').find('canvas')[0].toDataURL('image/png');let downloadLink = $('#download-qrcode').attr("href", url).attr("download", 'qrcode_' + new Date().valueOf() + '.png');downloadLink[0].click();}
+  // set language
+  setLang();
+  function setLang(i = undefined) {
+    let lng = localStorage.getItem('locale') ? localStorage.getItem('locale') : getBrowserLang();
+    let lngArr = [];
+    lngArr['ar'] = {'icon': 'ar', 'lang': 'العربية'};
+    lngArr['fr'] = {'icon': 'fr', 'lang': 'Français'};
+    lngArr['it'] = {'icon': 'it', 'lang': 'Italiano'};
+    lngArr['ru'] = {'icon': 'ru', 'lang': 'Pусский'};
+    lngArr['en'] = {'icon': 'us', 'lang': 'English'};
+    lngArr['ja'] = {'icon': 'jp', 'lang': '日本語'};
+    lngArr['ko'] = {'icon': 'kr', 'lang': '한국어'};
+    lngArr['de'] = {'icon': 'de', 'lang': 'Deutsch'};
+    lngArr['es'] = {'icon': 'es', 'lang': 'Español'};
+    lngArr['pt'] = {'icon': 'pt', 'lang': 'Português'};
+    lngArr['zhs'] = {'icon': 'cn', 'lang': '简体中文'};
+    lngArr['zht'] = {'icon': 'hk', 'lang': '繁體中文'};
+    lng = i ? $(i).attr('data-lang') : (lngArr[lng] ? lng : 'en');
+    $('.showLang').html('<span class="flag-icon flag-icon-' + lngArr[lng].icon + '"></span> ' + lngArr[lng].lang + '</a>');
+    localStorage.setItem('locale', lng);
+    $("[i18n]").i18n({defaultLang: lng, filePath: "./i18n/", filePrefix: "", fileSuffix: "", forever: true, callback: function () {}});
+  }
 
-    /* get client browser language*/
-    function getBrowserLang() {let lng = navigator.language;lng = navigator.language.substr(0, 2);return lng === 'zh' ? (navigator.language.toLowerCase() === 'zh-cn' ? 'zhs' : 'zht') : lng;}
-    let t = /(^ftp|tcp|udp|wss?|https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})|(^[a-zA-Z]{2,10}:\/\/\w+)/;
-    let fn = function () {checkUrl = function () {$("#url-text").on("input", function () {$('#showQr').hide();$('#qrcode').text('');t.test($(this).val()) ? $("#url-btn").prop("disabled", !1) : $("#url-btn").prop("disabled", !0)})};return {init: function () {checkUrl()}}}();
-    $(document).ready(function () {fn.init();});
-    $('body').css('background-image','url("'+ ((window.screen.height > window.screen.width) ? 'bg2.jpg' : 'bg.jpg') +'")');
-    // shortener url
-    function addUrl() {
-        if (!t.test($("#url-text").val())){return false;}
-        $('#qrcode').text('');
-        $("#url-btn").prop("disabled", 1);
-        $.ajax({
-            type: "POST",
-            url: '/api',
-            data: 'code=200&url='+ $('#url-text').val(),
-            dataType: "json",
-            success: function (res) {
-                if (res.code === 200) {
-                    let l = document.location.protocol+ '//'+document.location.host+'/' + res.data.id
-                    $('#tinyUrl').val(l);
-                    $('#qrcode').qrcode({render: "canvas", size: 120, border: 5, text: l});
-                    $('#showQr').fadeIn();
-                    copyForm();
-                } else {
-                    let msg = res.msg ? res.msg : 'Unknown Error';
-                    $('#alert-text').html(msg);
-                    $('#alert-modal').modal('show');
-                    setTimeout(function () {$('#alert-modal').modal('hide')}, 2000);
-                }
-            }, error: function (err) {
-                console.log(err);
-                let msg =  err.responseJSON && err.responseJSON.msg ? err.responseJSON.msg : 'Unknown Error';
-                $('#alert-text').html(msg);
-                $('#alert-modal').modal('show');
-                setTimeout(function () {$('#alert-modal').modal('hide')}, 2000);
-            }
-        });
-    }
+  /* get client browser language*/
+  function getBrowserLang() {let lng = navigator.language;lng = navigator.language.substr(0, 2);return lng === 'zh' ? (navigator.language.toLowerCase() === 'zh-cn' ? 'zhs' : 'zht') : lng;}
+  let t = /(^ftp|tcp|udp|wss?|https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})|(^[a-zA-Z]{2,10}:\/\/\w+)/;
+  let fn = function () {checkUrl = function () {$("#url-text").on("input", function () {$('#showQr').hide();$('#qrcode').text('');t.test($(this).val()) ? $("#url-btn").prop("disabled", !1) : $("#url-btn").prop("disabled", !0)})};return {init: function () {checkUrl()}}}();
+  $(document).ready(function () {fn.init();});
+  $('body').css('background-image','url("'+ ((window.screen.height > window.screen.width) ? 'bg2.jpg' : 'bg.jpg') +'")');
+  // shortener url
+  function addUrl() {
+    if (!t.test($("#url-text").val())){return false;}
+    $('#qrcode').text('');
+    $("#url-btn").prop("disabled", 1);
+    $.ajax({
+      type: "POST",
+      url: '/api',
+      data: 'code=200&url='+ $('#url-text').val(),
+      dataType: "json",
+      success: function (res) {
+        if (res.code === 200) {
+          let l = document.location.protocol+ '//'+document.location.host+'/' + res.data.id
+          $('#tinyUrl').val(l);
+          $('#qrcode').qrcode({render: "canvas", size: 120, border: 5, text: l});
+          $('#showQr').fadeIn();
+          copyForm();
+        } else {
+          let msg = res.msg ? res.msg : 'Unknown Error';
+          $('#alert-text').html(msg);
+          $('#alert-modal').modal('show');
+          setTimeout(function () {$('#alert-modal').modal('hide')}, 2000);
+        }
+      }, error: function (err) {
+        console.log(err);
+        let msg =  err.responseJSON && err.responseJSON.msg ? err.responseJSON.msg : 'Unknown Error';
+        $('#alert-text').html(msg);
+        $('#alert-modal').modal('show');
+        setTimeout(function () {$('#alert-modal').modal('hide')}, 2000);
+      }
+    });
+  }
 </script>
 
 </html>

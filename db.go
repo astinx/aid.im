@@ -50,9 +50,9 @@ func dbUrlGet(scheme, rawUrl string) *Link {
 	return l
 }
 
-// 删除规定时间内没点击的链接
+// delete useless link
 func dbUrlDel() {
-	db.Where("etime < ? ", time.Now().Unix()-opts.LinkTimeout).Delete(&Link{})
+	db.Where("etime < ? AND ctime < ? ", time.Now().Unix()-opts.LinkTimeout, time.Now().Unix()-opts.LinkTimeout).Delete(&Link{})
 }
 
 func dbUrlAdd(scheme, url, code string, n int) *Link {
@@ -85,15 +85,15 @@ func dbUrlUpdate(id string) {
 	db.Exec(sql, time.Now().Unix(), id)
 }
 
-// 统计增加, day = 0 是全局数据
+// add count for link, day = 0 is all data
 func dbStaAdd(clickIncr, urlCountIncr int64) {
-	// 只允许0, 1
+	// only accept 0 | 1
 	if clickIncr < 0 || clickIncr > 1 || urlCountIncr < 0 || urlCountIncr > 1 || (clickIncr+urlCountIncr == 0) {
 		return
 	}
 	t := time.Now()
 	day := t.Year()*10000 + int(t.Month())*100 + t.Day()
-	// 全局数据
+	// global statistic
 	exist, err := db.Where("day = 0").Get(&Statistics{})
 	if exist == false || err != nil {
 		db.Insert(&Statistics{Day: 0, TotalClick: clickIncr, TotalUrl: urlCountIncr})
@@ -101,7 +101,7 @@ func dbStaAdd(clickIncr, urlCountIncr int64) {
 		sql := "UPDATE `statistics` SET `total_click` =  `total_click` + ? , `total_url` = `total_url`  + ?  WHERE day = 0 "
 		db.Exec(sql, clickIncr, urlCountIncr)
 	}
-	// 当天数据
+	// current day statistic
 	if exist, err = db.Where("day = ? ", day).Get(&Statistics{}); exist == false || err != nil {
 		db.Insert(&Statistics{Day: day, TotalClick: clickIncr, TotalUrl: urlCountIncr})
 	} else {
@@ -111,7 +111,7 @@ func dbStaAdd(clickIncr, urlCountIncr int64) {
 
 }
 
-// 获取统计信息
+// get statistics
 func dbStaGet(day string) *Statistics {
 	var s Statistics
 	if res, _ := db.Where("day = ? ", day).Get(&s); res == false {
