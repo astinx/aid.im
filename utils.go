@@ -85,16 +85,14 @@ func ShowNotFound(w http.ResponseWriter) {
 
 func RandString(l int) string {
 	var (
-		str string
-		num *big.Int
-		chr int64
+		chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+		str   string
+		num   *big.Int
 	)
+	chrLen := int64(len(chars))
 	for len(str) < l {
-		num, _ = crand.Int(crand.Reader, big.NewInt(123))
-		chr = num.Int64()
-		if (chr >= 48 && chr <= 57) || (chr >= 65 && chr <= 90) || (chr >= 97 && chr <= 122) {
-			str += string(chr)
-		}
+		num, _ = crand.Int(crand.Reader, big.NewInt(chrLen))
+		str += string(chars[num.Int64()])
 	}
 	return str
 }
