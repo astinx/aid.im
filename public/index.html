@@ -9,7 +9,7 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
   <style>
     html, body{height:100%;}
-    body{display:-ms-flexbox;display:-webkit-box;display:flex;-ms-flex-align:center;-ms-flex-pack:center;-webkit-box-align:center; /* align-items: center; */-webkit-box-pack:center;justify-content:center;padding-bottom:40px;background-color:#fff;background-attachment:fixed;background-size:cover;background-position:center;}
+    body{background:linear-gradient(45deg, rgba(8,27,73,0.97) 0%, rgba(30,101,178,0.97) 100%);display:-ms-flexbox;display:-webkit-box;display:flex;-ms-flex-align:center;-ms-flex-pack:center;-webkit-box-align:center; /* align-items: center; */-webkit-box-pack:center;justify-content:center;padding-bottom:40px;background-color:#fff;background-attachment:fixed;background-size:cover;background-position:center;}
     .form-signin{width:100%;max-width:790px;padding:15px;margin:10% auto;position:absolute;}
     .form-signin .form-control{position:relative;box-sizing:border-box;height:auto;padding:10px;font-size:16px;border:none;}
     .form-control:focus{outline:0;box-shadow:inset 0 0 3px 0.2rem rgba(255, 170, 0, .25);}
@@ -179,7 +179,7 @@
   let t = /(^ftp|tcp|udp|wss?|https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})|(^[a-zA-Z]{2,10}:\/\/\w+)/;
   let fn = function () {checkUrl = function () {$("#url-text").on("input", function () {$('#showQr').hide();$('#qrcode').text('');t.test($(this).val()) ? $("#url-btn").prop("disabled", !1) : $("#url-btn").prop("disabled", !0)})};return {init: function () {checkUrl()}}}();
   $(document).ready(function () {fn.init();});
-  $('body').css('background-image','url("'+ ((window.screen.height > window.screen.width) ? 'bg2.jpg' : 'bg.jpg') +'")');
+  /*$('body').css('background-image','url("'+ ((window.screen.height > window.screen.width) ? 'bg2.jpg' : 'bg.jpg') +'")');*/
   // shortener url
   function addUrl() {
     if (!t.test($("#url-text").val())){return false;}

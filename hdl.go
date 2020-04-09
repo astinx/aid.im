@@ -71,6 +71,7 @@ func hdlAdd(w http.ResponseWriter, r *http.Request) {
 	if rawCode == "" {
 		rawCode = "200"
 	}
+	addCors(w)
 	s := SplitUrl(rawUrl)
 	if s == nil {
 		resp(w, 400, "invalid url", nil)
@@ -106,4 +107,12 @@ func hdlAdd(w http.ResponseWriter, r *http.Request) {
 	go dbStaAdd(0, 1)
 	resp(w, 200, "", res)
 	return
+}
+
+func addCors(w http.ResponseWriter) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")                                                                                                                                                                                                  // 允许访问所有域，可以换成具体url，注意仅具体url才能带cookie信息
+	w.Header().Add("Access-Control-Allow-Headers", "Content-Type,AccessToken,Content-Length,X-CSRF-Token,Accept,X-Requested-With, Authorization, Token,Origin, No-Cache, If-Modified-Since, Pragma, Last-Modified, Cache-Control, Expires, X-E4M-With") //header的类型
+	w.Header().Add("Access-Control-Allow-Credentials", "true")                                                                                                                                                                                          //设置为true，允许ajax异步请求带cookie信息
+	w.Header().Add("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")                                                                                                                                                                   //允许请求方法
+	w.Header().Set("content-type", "application/json;charset=UTF-8")                                                                                                                                                                                    //返回数据格式是json
 }
