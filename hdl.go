@@ -59,7 +59,7 @@ func hdlStatistic(w http.ResponseWriter, r *http.Request) {
 	if s == nil {
 		msg = "no data"
 	}
-	resp(w, 200, msg, s)
+	resp(w, http.StatusOK, msg, s)
 	return
 }
 
@@ -74,56 +74,56 @@ func hdlAdd(w http.ResponseWriter, r *http.Request) {
 	addCors(w)
 	s := SplitUrl(rawUrl)
 	if s == nil {
-		resp(w, 400, "invalid url", nil)
+		resp(w, http.StatusBadRequest, "invalid url", nil)
 		return
 	}
 	if !IsSupportType(rawCode) {
-		resp(w, 400, "nonsupport type code", nil)
+		resp(w, http.StatusBadRequest, "nonsupport type code", nil)
 		return
 	}
 	if IsURL(rawUrl) {
 		//is same with current host
 		l, err := url.Parse(rawUrl)
 		if err != nil || l.Host == opts.Host {
-			resp(w, 400, "invalid url", nil)
+			resp(w, http.StatusBadRequest, "invalid url", nil)
 			return
 		}
 	} else if IsApp(rawUrl) { // is app link
 		rawCode = "200"
 	} else {
-		resp(w, 400, "invalid url", nil)
+		resp(w, http.StatusBadRequest, "invalid url", nil)
 		return
 	}
 	customId := r.Form.Get("id")
 	if customId != "" {
 		if len(customId) < 4 || len(customId) > 12 {
-			resp(w, 400, "custom id length must between 4 - 12 ", nil)
+			resp(w, http.StatusBadRequest, "custom id length must between 4 - 12 ", nil)
 			return
 		}
 		// not use regex cause loop faster than regex
 		for _, v := range customId {
 			if v < 'a' && v > 'z' && v < 'A' && v > 'Z' && v != '_' {
-				resp(w, 400, "custom id characters only accept 0-9,A-Z,a-z AND _", nil)
+				resp(w, http.StatusBadRequest, "custom id characters only accept 0-9,A-Z,a-z AND _", nil)
 				return
 			}
 		}
 		if dbUrlGetById(customId) != nil {
-			resp(w, 400, "custom id exist", nil)
+			resp(w, http.StatusBadRequest, "custom id exist", nil)
 			return
 		}
 	}
 	l := dbUrlGet(s[0], s[1])
 	if l != nil {
-		resp(w, 200, "", l)
+		resp(w, http.StatusOK, "", l)
 		return
 	}
 	res := dbUrlAdd(s[0], s[1], rawCode, customId, opts.MinLinkLen)
 	if res == nil {
-		resp(w, 400, "unknown error", nil)
+		resp(w, http.StatusBadRequest, "unknown error", nil)
 		return
 	}
 	go dbStaAdd(0, 1)
-	resp(w, 200, "", res)
+	resp(w, http.StatusOK, "", res)
 	return
 }
 
