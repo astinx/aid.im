@@ -112,8 +112,8 @@ func hdlAdd(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-	l := dbUrlGet(s[0], s[1])
-	if l != nil {
+	l := dbUrlGet(s[1])
+	if l != nil && (s[0] == "http" || s[0] == "https") && (l.Scheme == "http" || l.Scheme == "https") {
 		resp(w, http.StatusOK, "", l)
 		return
 	}

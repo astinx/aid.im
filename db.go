@@ -42,9 +42,9 @@ func dbUrlGetById(id string) *Link {
 	return &l
 }
 
-func dbUrlGet(scheme, rawUrl string) *Link {
+func dbUrlGet(rawUrl string) *Link {
 	l := &Link{}
-	if res, err := db.Where(" scheme = ? AND url = ? ", scheme, rawUrl).Get(l); !res || err != nil {
+	if res, err := db.Where(" url = ? ", rawUrl).Get(l); !res || err != nil {
 		return nil
 	}
 	return l
