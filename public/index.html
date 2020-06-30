@@ -4,9 +4,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1,minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <meta name="keywords" content="Shortener a URL" />
+  <meta name="description" content="URL Shortener(aid.im)" />
   <title i18n="title">aid.im | URL Shortener & Link Management</title>
-  <link href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/flag-icon-css/3.5.0/css/flag-icon.min.css" media="none" onload="if(media!='all')media='all'">
   <style>
     html, body{height:100%;}
     body{background:linear-gradient(45deg, rgba(8,27,73,0.97) 0%, rgba(30,101,178,0.97) 100%);display:-ms-flexbox;display:-webkit-box;display:flex;-ms-flex-align:center;-ms-flex-pack:center;-webkit-box-align:center; /* align-items: center; */-webkit-box-pack:center;justify-content:center;padding-bottom:40px;background-color:#fff;background-attachment:fixed;background-size:cover;background-position:center;}
@@ -20,7 +22,7 @@
     .shorten-box{width:98%;max-width:500px;}
     header{width:100%;}
     .btn.disabled, .btn[disabled], fieldset[disabled] .btn{cursor:not-allowed;background:gray;}
-    @media (max-width:768px){  .form-signin{margin:30% auto;}  }
+    @media (max-width:768px){.form-signin{margin:30% auto;}}
   </style>
 </head>
 
@@ -52,12 +54,12 @@
   </div>
 </header>
 <div class="text-center form-signin">
-    <!-- <img class="mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72"> -->
-    <h1 class="mb-3 font-weight-normal t-shadow" i18n="text.url_shortener">URL Shortener</h1>
-    <div class="input-group mb-3 out-frame">
-      <input type="text" name="url" id="url-text" class="form-control" i18n-only="placeholder" onkeypress="if(event.keyCode===13){return addUrl()}" i18n="text.enter_url" placeholder="Enter the link" autocomplete="off">
-      <div class="input-group-append"><button class="btn btn-info btn-g" type="button" id="url-btn" onclick="addUrl()" i18n="text.shorten" disabled="true">Shorten</button></div>
-    </div>
+  <!-- <img class="mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72"> -->
+  <h1 class="mb-3 font-weight-normal t-shadow" i18n="text.url_shortener">URL Shortener</h1>
+  <div class="input-group mb-3 out-frame">
+    <input type="text" name="url" id="url-text" class="form-control" i18n-only="placeholder" onkeypress="if(event.keyCode===13){return addUrl()}" i18n="text.enter_url" placeholder="Enter the link" autocomplete="off">
+    <div class="input-group-append"><button class="btn btn-info btn-g" type="button" id="url-btn" onclick="addUrl()" i18n="text.shorten" disabled="true">Shorten</button></div>
+  </div>
   <div id="showQr" style="display: none;">
     <div id="qrcode"></div>
     <a class="btn btn-small btn-info" id="download-qrcode" href="javascript:;" onclick="downloadQRCode()" i18n="text.download">Download</a>
@@ -128,31 +130,26 @@
         <blockquote class="bg-dark text-white"><p>whatsapp://send?text={your text}</p></blockquote>
         <div><span class="text-danger">WARNING:</span> your shortened link will be delete if 30 days without any visit</div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-info" data-dismiss="modal">OK</button>
-      </div>
+      <div class="modal-footer"><button type="button" class="btn btn-info" data-dismiss="modal">OK</button></div>
     </div>
   </div>
 </div>
 <!-- API MODAL END -->
 </body>
 <script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-<script src="jquery.qrcode.min.js"></script>
-<script src="jquery.i18n.min.js"></script>
-<script src="https://cdn.staticfile.org/clipboard.js/2.0.4/clipboard.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.bundle.min.js" async></script>
+<script src="jquery.qrcode.min.js" defer></script>
+<script src="jquery.i18n.min.js" defer></script>
+<script src="https://cdn.staticfile.org/clipboard.js/2.0.4/clipboard.min.js" defer></script>
 
 <script>
   $(window).resize(function () {copyForm()});
-  copyForm();
   function copyForm() {let i = $('#shorten-input');i.css('left', 'calc(50% - ' + i.width() / 2 + 'px)')}
   // copy target
   function copyTarget(targetId) {targetId = '#' + targetId;targetText = $(targetId).html();clipboard = new ClipboardJS(targetId);clipboard.on('success', function (e) {$(targetId).html('copied').prop('disabled', true);setTimeout(function () {$(targetId).html(targetText).prop('disabled', false);}, 1000);e.clearSelection()});}
-
   // download qrcode
   function downloadQRCode() {let url = $('#qrcode').find('canvas')[0].toDataURL('image/png');let downloadLink = $('#download-qrcode').attr("href", url).attr("download", 'qrcode_' + new Date().valueOf() + '.png');downloadLink[0].click();}
   // set language
-  setLang();
   function setLang(i = undefined) {
     let lng = localStorage.getItem('locale') ? localStorage.getItem('locale') : getBrowserLang();
     let lngArr = [];
@@ -212,6 +209,7 @@
       }
     });
   }
-</script>
 
+  window.onload=function(){copyForm();setLang();};
+</script>
 </html>
