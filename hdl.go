@@ -22,7 +22,7 @@ func hdlHome(w http.ResponseWriter, r *http.Request) {
 func hdlGet(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 	if id == "" {
-
+		ShowNotFound(w)
 	}
 	l := dbUrlGetById(id)
 	if l == nil {
@@ -94,12 +94,30 @@ func hdlAdd(w http.ResponseWriter, r *http.Request) {
 		resp(w, 400, "invalid url", nil)
 		return
 	}
+	customId := r.Form.Get("id")
+	if customId != "" {
+		if len(customId) < 4 || len(customId) > 12 {
+			resp(w, 400, "custom id length must between 4 - 12 ", nil)
+			return
+		}
+		// not use regex cause loop faster than regex
+		for _, v := range customId {
+			if v < 'a' && v > 'z' && v < 'A' && v > 'Z' && v != '_' {
+				resp(w, 400, "custom id characters only accept 0-9,A-Z,a-z AND _", nil)
+				return
+			}
+		}
+		if dbUrlGetById(customId) != nil {
+			resp(w, 400, "custom id exist", nil)
+			return
+		}
+	}
 	l := dbUrlGet(s[0], s[1])
 	if l != nil {
 		resp(w, 200, "", l)
 		return
 	}
-	res := dbUrlAdd(s[0], s[1], rawCode, opts.MinLinkLen)
+	res := dbUrlAdd(s[0], s[1], rawCode, customId, opts.MinLinkLen)
 	if res == nil {
 		resp(w, 400, "unknown error", nil)
 		return

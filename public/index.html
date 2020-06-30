@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1,minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -22,7 +21,7 @@
     .shorten-box{width:98%;max-width:500px;}
     header{width:100%;}
     .btn.disabled, .btn[disabled], fieldset[disabled] .btn{cursor:not-allowed;background:gray;}
-    @media (max-width:768px){.form-signin{margin:30% auto;}}
+    @media(max-width:768px){.form-signin{margin:30% auto;}}
   </style>
 </head>
 
@@ -93,14 +92,22 @@
         <h5 class="modal-title" id="apiModalLabel">API</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       </div>
-      <div class="modal-body"><h4>Request Method</h4>
+      <div class="modal-body">
+        <h4>Features</h4>
+        <ul>
+          <li>Support app links, ex: whatsapp://send?text={your text} , alipays://</li>
+          <li>Custom links</li>
+          <li>Click statistics</li>
+          <li>Limitless content</li>
+        </ul>
+        <h4>Request Method</h4>
         <blockquote class="bg-dark text-white">GET/POST</blockquote>
         <h4>Address</h4>
         <blockquote class="bg-dark text-white">https://aid.im/api</blockquote>
         <h4>request data type</h4>
         <blockquote class="bg-dark text-white">form</blockquote>
         <h4>ex:</h4>
-        <blockquote class="bg-dark text-white">code=200&amp;url=http://google.com</blockquote>
+        <blockquote class="bg-dark text-white">code=200&id=ABC2&amp;url=http://google.com</blockquote>
         <table class="table table-sm table-striped table-dark table-responsive">
           <thead>
           <tr>
@@ -123,14 +130,22 @@
             <td class="text-center">Y</td>
             <td class="text-center">http status code, accept 301, 302, 303, 307 and 200</td>
           </tr>
+          <tr>
+            <td class="text-center">id</td>
+            <td class="text-center">string</td>
+            <td class="text-center">N</td>
+            <td class="text-center">(optional) custom id, 4~12 characters, accept A-Z,a-z,0-9 and '_'</td>
+          </tr>
           </tbody>
         </table>
-        <div>* 200 code will use js "window.location.href" to redirect, http,https,ftp,tcp,udp,wss support all code.app links or universal links only accept 200 to open, ex: myapp://</div>
+        <div>* 200 code will use js "window.location.href" to redirect, http,https,ftp,tcp,udp,wss support all code. App links or universal links only accept 200 to open, ex: myapp://</div>
         <h4>Support App links</h4>
         <blockquote class="bg-dark text-white"><p>whatsapp://send?text={your text}</p></blockquote>
         <div><span class="text-danger">WARNING:</span> your shortened link will be delete if 30 days without any visit</div>
+        <h4>Support US</h4>
+        <div>AID.im is a nonprofit site that provides free service and opensource code in <a href="https://github.com/astinx/aid.im">github.com/astinx/aid.im</a>, you can buy a cup of coffee to support this site and this project</div>
       </div>
-      <div class="modal-footer"><button type="button" class="btn btn-info" data-dismiss="modal">OK</button></div>
+      <div class="modal-footer"><a href="" target="_blank" class="btn btn-danger">Buy me a coffee</a><button type="button" class="btn btn-info" data-dismiss="modal">OK</button></div>
     </div>
   </div>
 </div>
@@ -143,10 +158,10 @@
 <script src="https://cdn.staticfile.org/clipboard.js/2.0.4/clipboard.min.js" defer></script>
 
 <script>
-  $(window).resize(function () {copyForm()});
+  $(window).resize(function() {copyForm()});
   function copyForm() {let i = $('#shorten-input');i.css('left', 'calc(50% - ' + i.width() / 2 + 'px)')}
   // copy target
-  function copyTarget(targetId) {targetId = '#' + targetId;targetText = $(targetId).html();clipboard = new ClipboardJS(targetId);clipboard.on('success', function (e) {$(targetId).html('copied').prop('disabled', true);setTimeout(function () {$(targetId).html(targetText).prop('disabled', false);}, 1000);e.clearSelection()});}
+  function copyTarget(targetId) {targetId = '#' + targetId;targetText = $(targetId).html();clipboard = new ClipboardJS(targetId);clipboard.on('success', function(e) {$(targetId).html('copied').prop('disabled', true);setTimeout(function() {$(targetId).html(targetText).prop('disabled', false);}, 1000);e.clearSelection()});}
   // download qrcode
   function downloadQRCode() {let url = $('#qrcode').find('canvas')[0].toDataURL('image/png');let downloadLink = $('#download-qrcode').attr("href", url).attr("download", 'qrcode_' + new Date().valueOf() + '.png');downloadLink[0].click();}
   // set language
@@ -165,30 +180,30 @@
     lngArr['pt'] = {'icon': 'pt', 'lang': 'Português'};
     lngArr['zhs'] = {'icon': 'cn', 'lang': '简体中文'};
     lngArr['zht'] = {'icon': 'hk', 'lang': '繁體中文'};
-    lng = i ? $(i).attr('data-lang') : (lngArr[lng] ? lng : 'en');
+    lng = i ? $(i).attr('data-lang') :(lngArr[lng] ? lng : 'en');
     $('.showLang').html('<span class="flag-icon flag-icon-' + lngArr[lng].icon + '"></span> ' + lngArr[lng].lang + '</a>');
     localStorage.setItem('locale', lng);
-    $("[i18n]").i18n({defaultLang: lng, filePath: "./i18n/", filePrefix: "", fileSuffix: "", forever: true, callback: function () {}});
+    $("[i18n]").i18n({defaultLang: lng, filePath: "./i18n/", filePrefix: "", fileSuffix: "", forever: true, callback: function() {}});
   }
 
   /* get client browser language*/
-  function getBrowserLang() {let lng = navigator.language;lng = navigator.language.substr(0, 2);return lng === 'zh' ? (navigator.language.toLowerCase() === 'zh-cn' ? 'zhs' : 'zht') : lng;}
+  function getBrowserLang() {let lng = navigator.language;lng = navigator.language.substr(0, 2);return lng === 'zh' ?(navigator.language.toLowerCase() === 'zh-cn' ? 'zhs' : 'zht') : lng;}
   let t = /(^ftp|tcp|udp|wss?|https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})|(^[a-zA-Z]{2,10}:\/\/\w+)/;
-  let fn = function () {checkUrl = function () {$("#url-text").on("input", function () {$('#showQr').hide();$('#qrcode').text('');t.test($(this).val()) ? $("#url-btn").prop("disabled", !1) : $("#url-btn").prop("disabled", !0)})};return {init: function () {checkUrl()}}}();
-  $(document).ready(function () {fn.init();});
-  /*$('body').css('background-image','url("'+ ((window.screen.height > window.screen.width) ? 'bg2.jpg' : 'bg.jpg') +'")');*/
+  let fn = function() {checkUrl = function() {$("#url-text").on("input", function() {$('#showQr').hide();$('#qrcode').text('');t.test($(this).val()) ? $("#url-btn").prop("disabled", !1) : $("#url-btn").prop("disabled", !0)})};return {init: function() {checkUrl()}}}();
+  $(document).ready(function() {fn.init();});
+  /*$('body').css('background-image','url("'+((window.screen.height > window.screen.width) ? 'bg2.jpg' : 'bg.jpg') +'")');*/
   // shortener url
   function addUrl() {
-    if (!t.test($("#url-text").val())){return false;}
+    if(!t.test($("#url-text").val())){return false;}
     $('#qrcode').text('');
     $("#url-btn").prop("disabled", 1);
     $.ajax({
       type: "POST",
       url: '/api',
-      data: 'code=200&url='+ $('#url-text').val(),
+      data: 'code=303&url='+ $('#url-text').val(),
       dataType: "json",
-      success: function (res) {
-        if (res.code === 200) {
+      success: function(res) {
+        if(res.code === 200) {
           let l = document.location.protocol+ '//'+document.location.host+'/' + res.data.id
           $('#tinyUrl').val(l);
           $('#qrcode').qrcode({render: "canvas", size: 120, border: 5, text: l});
@@ -198,14 +213,14 @@
           let msg = res.msg ? res.msg : 'Unknown Error';
           $('#alert-text').html(msg);
           $('#alert-modal').modal('show');
-          setTimeout(function () {$('#alert-modal').modal('hide')}, 2000);
+          setTimeout(function() {$('#alert-modal').modal('hide')}, 2000);
         }
-      }, error: function (err) {
+      }, error: function(err) {
         console.log(err);
         let msg =  err.responseJSON && err.responseJSON.msg ? err.responseJSON.msg : 'Unknown Error';
         $('#alert-text').html(msg);
         $('#alert-modal').modal('show');
-        setTimeout(function () {$('#alert-modal').modal('hide')}, 2000);
+        setTimeout(function() {$('#alert-modal').modal('hide')}, 2000);
       }
     });
   }

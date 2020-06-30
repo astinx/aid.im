@@ -55,13 +55,16 @@ func dbUrlDel() {
 	db.Where("etime < ? AND ctime < ? ", time.Now().Unix()-opts.LinkTimeout, time.Now().Unix()-opts.LinkTimeout).Delete(&Link{})
 }
 
-func dbUrlAdd(scheme, url, code string, n int) *Link {
+func dbUrlAdd(scheme, url, code, customId string, n int) *Link {
 	if n < opts.MinLinkLen || n > opts.MaxLinkLen {
 		n = opts.MaxLinkLen
 	}
-	id := RandString(n)
+	id := customId
+	if id == "" {
+		id = RandString(n)
+	}
 	if dbUrlGetById(id) != nil {
-		return dbUrlAdd(scheme, url, code, n+1)
+		return dbUrlAdd(scheme, url, code, "", n+1)
 	}
 	tempCode, _ := strconv.Atoi(code)
 	l := &Link{
