@@ -16,6 +16,7 @@ func main() {
 	}
 	NewCfg(*cfgPath)
 	NewDB(opts.DB)
+	NewCache()
 
 	r := chi.NewRouter()
 	r.Get("/", hdlHome)

@@ -1,10 +1,12 @@
 package main
 
 import (
-	"github.com/go-chi/chi"
+	"io/ioutil"
 	"net/http"
 	"net/url"
 	"strings"
+
+	"github.com/go-chi/chi"
 )
 
 type Resp struct {
@@ -15,7 +17,18 @@ type Resp struct {
 
 // home page
 func hdlHome(w http.ResponseWriter, r *http.Request) {
-	http.Redirect(w, r, "/index.html", http.StatusMovedPermanently)
+	w.WriteHeader(200)
+	c := Cache.Get("tinyurl_home")
+	if c != nil {
+		w.Write(c.([]byte))
+		return
+	}
+	f, err := ioutil.ReadFile("index.html")
+	if err != nil {
+		resp(w, http.StatusBadRequest, "cannot read template: "+err.Error(), nil)
+	}
+	Cache.Put("tinyurl_home", f, 3600)
+	w.Write(f)
 }
 
 // get link

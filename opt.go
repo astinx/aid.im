@@ -1,11 +1,15 @@
 package main
 
 import (
-	"gopkg.in/yaml.v2"
 	"io/ioutil"
+
+	"gopkg.in/yaml.v2"
+
+	"tinyUrl/cache"
 )
 
 var opts *options
+var Cache cache.Cache
 
 func NewCfg(cfgFile string) {
 	buf, err := ioutil.ReadFile(cfgFile)
@@ -17,6 +21,10 @@ func NewCfg(cfgFile string) {
 	if err != nil {
 		panic(err)
 	}
+}
+
+func NewCache() {
+	Cache, _ = cache.NewCache("memory", `{"interval":3600}`)
 }
 
 type options struct {
