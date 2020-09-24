@@ -1,10 +1,8 @@
-package main
+package util
 
 import (
 	crand "crypto/rand"
-	"encoding/json"
 	"math/big"
-	"net/http"
 	"net/url"
 	"regexp"
 	"strings"
@@ -20,9 +18,9 @@ const (
 	URLUsername  string = `(\S+(:\S*)?@)`
 	URLPath      string = `((\/|\?|#)[^\s]*)`
 	URLPort      string = `(:(\d{1,5}))`
-	URLIP        string = `([1-9]\d?|1\d\d|2[01]\d|22[0-3]|24\d|25[0-5])(\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])){2}(?:\.([0-9]\d?|1\d\d|2[0-4]\d|25[0-5]))`
+	URL_IP       string = `([1-9]\d?|1\d\d|2[01]\d|22[0-3]|24\d|25[0-5])(\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])){2}(?:\.([0-9]\d?|1\d\d|2[0-4]\d|25[0-5]))`
 	URLSubdomain string = `((www\.)|([a-zA-Z0-9]+([-_\.]?[a-zA-Z0-9])*[a-zA-Z0-9]\.[a-zA-Z0-9]+))`
-	URL          string = `^` + URLSchema + `?` + URLUsername + `?` + `((` + URLIP + `|(\[` + IP + `\])|(([a-zA-Z0-9]([a-zA-Z0-9-_]+)?[a-zA-Z0-9]([-\.][a-zA-Z0-9]+)*)|(` + URLSubdomain + `?))?(([a-zA-Z\x{00a1}-\x{ffff}0-9]+-?-?)*[a-zA-Z\x{00a1}-\x{ffff}0-9]+)(?:\.([a-zA-Z\x{00a1}-\x{ffff}]{1,}))?))\.?` + URLPort + `?` + URLPath + `?$`
+	URL          string = `^` + URLSchema + `?` + URLUsername + `?` + `((` + URL_IP + `|(\[` + IP + `\])|(([a-zA-Z0-9]([a-zA-Z0-9-_]+)?[a-zA-Z0-9]([-\.][a-zA-Z0-9]+)*)|(` + URLSubdomain + `?))?(([a-zA-Z\x{00a1}-\x{ffff}0-9]+-?-?)*[a-zA-Z\x{00a1}-\x{ffff}0-9]+)(?:\.([a-zA-Z\x{00a1}-\x{ffff}]{1,}))?))\.?` + URLPort + `?` + URLPath + `?$`
 	URL_APP      string = `^[a-z]{2,10}:\/\/\w`
 )
 
@@ -47,7 +45,6 @@ func IsURL(str string) bool {
 	if u.Host == "" && (u.Path != "" && !strings.Contains(u.Path, ".")) {
 		return false
 	}
-
 	return regexp.MustCompile(URL).MatchString(str)
 }
 
@@ -59,7 +56,7 @@ func IsSupportType(s string) bool {
 	if len(s) != 3 {
 		return false
 	}
-	supportType := []string{"200", "301", "302", "303", "307"}
+	supportType := []string{"200", "301", "302", "303", "307", "308"}
 	for _, v := range supportType {
 		if s == v {
 			return true
@@ -77,12 +74,6 @@ func SplitUrl(str string) []string {
 	return s
 }
 
-func ShowNotFound(w http.ResponseWriter) {
-	pageNotFound := `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Not Found</title><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0"><style>* {transition:all 0.6s;} html {height:100%;} body {font-family:Lato, sans-serif;color:#888888;margin:0;} #main {display:table;width:100%;height:100vh;text-align:center;} .fof {display:table-cell;vertical-align:middle;} .fof h1 {font-size:50px;display:inline-block;padding-right:12px;animation:type .5s alternate infinite;} @keyframes type { from {box-shadow:inset -3px 0 0 #888888;} to {box-shadow:inset -3px 0 0 transparent;} }</style></head><body><div id="main"><div class="fof"><h1>404</h1><h3>page not found</h3></div></div></body></html>`
-	w.WriteHeader(404)
-	w.Write([]byte(pageNotFound))
-}
-
 func RandString(l int) string {
 	var (
 		chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
@@ -95,10 +86,4 @@ func RandString(l int) string {
 		str += string(chars[num.Int64()])
 	}
 	return str
-}
-
-func resp(w http.ResponseWriter, code int, msg string, data interface{}) {
-	w.WriteHeader(code)
-	resp, _ := json.Marshal(Resp{code, msg, data})
-	w.Write(resp)
 }

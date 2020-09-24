@@ -5,6 +5,8 @@ import (
 	"time"
 )
 
+var c Cache
+
 type Cache interface {
 	// get cached value by key.
 	Get(key string) interface{}
@@ -44,6 +46,19 @@ func Register(name string, adapter Instance) {
 	adapters[name] = adapter
 }
 
+func InitCache(adapterName, config string) (err error) {
+	instanceFunc, ok := adapters[adapterName]
+	if !ok {
+		err = fmt.Errorf("cache: unknown adapter name %q (forgot to import?)", adapterName)
+		return
+	}
+	c = instanceFunc()
+	if err = c.StartAndGC(config); err != nil {
+		c = nil
+	}
+	return
+}
+
 // NewCache Create a new cache driver by adapter name and config string.
 // config need to be correct JSON as string: {"interval":360}.
 // it will start gc automatically.
@@ -54,9 +69,49 @@ func NewCache(adapterName, config string) (adapter Cache, err error) {
 		return
 	}
 	adapter = instanceFunc()
-	err = adapter.StartAndGC(config)
-	if err != nil {
+	if err = adapter.StartAndGC(config); err != nil {
 		adapter = nil
 	}
 	return
+}
+
+func Get(key string) interface{} {
+	return c.Get(key)
+}
+
+func GetMulti(keys []string) []interface{} {
+	return c.GetMulti(keys)
+}
+func Put(key string, val interface{}, timeout time.Duration) error {
+	return c.Put(key, val, timeout)
+}
+
+// delete cached value by key.
+func Delete(key string) error {
+	return c.Delete(key)
+}
+
+// increase cached int value by key, as a counter.
+func Incr(key string) error {
+	return c.Incr(key)
+}
+
+// decrease cached int value by key, as a counter.
+func Decr(key string) error {
+	return c.Decr(key)
+}
+
+// check if cached value exists or not.
+func IsExist(key string) bool {
+	return c.IsExist(key)
+}
+
+// clear all cache.
+func ClearAll() error {
+	return c.ClearAll()
+}
+
+// start gc routine based on config string settings.
+func StartAndGC(config string) error {
+	return c.StartAndGC(config)
 }

@@ -1,8 +1,0 @@
-# 当前域名
-host: 'aid.im'
-# sqlite
-db:  './url.db'
-# 链接保存时间
-link_timeout: 2592000
-min_link_len: 4
-max_link_len: 8
