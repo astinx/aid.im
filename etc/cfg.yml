@@ -1,29 +1,31 @@
 # mode
-mode: debug
+mode        : debug
 
 # serv address
-srv_addr : ':8080'
+srv_addr    : ':8080'
 
 # index page
-index_page: 'public/index.html'
+index_page  : 'public/index.html'
 
 # sqlite
-db:  './url.db'
+db          : './url.db'
 
 # link keep time
-link_ttl: 2592000
+link_ttl    : 2592000
 min_link_len: 4
 max_link_len: 8
+sql_log     : 'tmp/sql.log'
+
 
 # logger
-log:
-  app_name:      'applet'
-  level:         'debug' # 普通日志级别  #debug, info, warn, fatal, panic
-  is_stdout:     true
-  time_format:   'standard' # sec, second, milli, nano, standard, iso
-  encoding:      'console'
-  is_file_out:   true
-  file_dir:      './tmp/'
-  file_max_size: 256
-  file_max_age:  1
-  file_name:     "debug.log"
+log         :
+  level           : 'debug' # 普通日志级别  #debug, info, warn, fatal, panic
+  is_stdout       : true
+  time_format     : 'standard' # sec, second, milli, nano, standard, iso
+  encoding        : 'console'
+  is_file_out     : true
+  file_dir        : './tmp/'
+  file_max_size   : 256
+  file_max_age    : 1
+  file_name       : "debug.log"
+  stacktrace_level: 'error'

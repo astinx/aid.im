@@ -60,13 +60,14 @@ func UrlAdd(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	l := db.UrlGet(s[1])
-	if l != nil && (s[0] == "http" || s[0] == "https") && (l.Scheme == "http" || l.Scheme == "https") {
+	if l != nil && l.Url == url.QueryEscape(s[1]) {
+		l.Url, _ = url.QueryUnescape(l.Url)
 		e.Output(w, http.StatusOK, "", l)
 		return
 	}
-	res := db.UrlAdd(s[0], s[1], rawCode, customId, cfg.Opt.MinLinkLen)
-	if res == nil {
-		e.Output(w, http.StatusBadRequest, "unknown error", nil)
+	res, err := db.UrlAdd(s[0], url.QueryEscape(s[1]), rawCode, customId, cfg.Opt.MinLinkLen)
+	if err != nil {
+		e.Output(w, http.StatusBadRequest, "err : "+err.Error(), nil)
 		return
 	}
 	go db.StaAdd(0, 1)

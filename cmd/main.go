@@ -16,13 +16,14 @@ import (
 	"aid.im/app/db"
 	"aid.im/app/hdl"
 	"aid.im/app/mw"
+	"aid.im/app/util/logx"
 )
 
 func init() {
 	cfg.InitCfg()
 	cfg.InitCache()
 	cfg.InitLog()
-	db.InitDB(cfg.DBPath)
+	db.InitDB(cfg.DBPath, cfg.Opt.SqlLog)
 }
 func initRouter() *chi.Mux {
 	r := chi.NewRouter()
@@ -52,13 +53,13 @@ func main() {
 	quit := make(chan os.Signal)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 	<-quit
-	log.Println("Shutting down server...")
+	logx.Info("Shutting down server...")
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	if err := srv.Shutdown(ctx); err != nil {
-		log.Fatal("Server forced to shutdown:", err)
+		logx.Info("Server forced to shutdown:", err)
 	}
-	log.Println("Server exiting")
+	logx.Info("Server exiting")
 }
 
 func route(r *chi.Mux) {

@@ -25,6 +25,7 @@ type options struct {
 	MinLinkLen int            `yaml:"min_link_len"`
 	MaxLinkLen int            `yaml:"max_link_len"`
 	Log        logx.LogConfig `yaml:"log"`
+	SqlLog     string         `yaml:"sql_log"`
 }
 
 func InitCfg() {
@@ -41,7 +42,6 @@ func InitCfg() {
 	}
 	Opt = &options{}
 	err = yaml.Unmarshal(buf, Opt)
-	fmt.Printf("%#v, %#v", Opt, err)
 	if err != nil {
 		panic(err)
 	}

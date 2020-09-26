@@ -58,7 +58,9 @@ func InitDefaultLogger(cfg *LogConfig) {
 
 	lg, lv := newZapLogger(setLogLevel(cfg.Level), setLogLevel(cfg.StacktraceLevel), cfg.Encoding, cfg.TimeFormat, cfg.Skip, zapcore.NewMultiWriteSyncer(writers...))
 	zap.RedirectStdLog(lg)
-	lg = lg.With(zap.String("app", cfg.AppName)) // 加上应用名称
+	if cfg.AppName != "" {
+		lg = lg.With(zap.String("app", cfg.AppName)) // 加上应用名称
+	}
 	l = &LogX{logger: lg, atomLevel: lv}
 }
 

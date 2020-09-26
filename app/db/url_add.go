@@ -10,7 +10,7 @@ import (
 	"aid.im/app/util/logx"
 )
 
-func UrlAdd(scheme, url, code, customId string, n int) *model.Link {
+func UrlAdd(scheme, url, code, customId string, n int) (*model.Link, error) {
 	if n < cfg.Opt.MinLinkLen || n > cfg.Opt.MaxLinkLen {
 		n = cfg.Opt.MaxLinkLen
 	}
@@ -31,10 +31,8 @@ func UrlAdd(scheme, url, code, customId string, n int) *model.Link {
 		CTime:  time.Now().Unix(),
 		ETime:  0,
 	}
-	_, err := db.Insert(l)
-	if err != nil {
-		logx.Error(err)
-		return nil
+	if _, err := db.Insert(l); err != nil {
+		return nil, logx.Error(err)
 	}
-	return l
+	return l, nil
 }
