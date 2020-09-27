@@ -21,7 +21,7 @@ func UrlAdd(w http.ResponseWriter, r *http.Request) {
 	}
 	s := util.SplitUrl(rawUrl)
 	if s == nil {
-		e.Output(w, http.StatusBadRequest, "invalid url", nil)
+		e.Output(w, http.StatusBadRequest, "invalid url, split err", nil)
 		return
 	}
 	if !util.IsSupportType(rawCode) {
@@ -32,7 +32,7 @@ func UrlAdd(w http.ResponseWriter, r *http.Request) {
 		//is same with current host
 		l, err := url.Parse(rawUrl)
 		if err != nil || l.Host == r.Host {
-			e.Output(w, http.StatusBadRequest, "invalid url", nil)
+			e.Output(w, http.StatusBadRequest, "invalid url: can't use "+r.Host, nil)
 			return
 		}
 	} else if util.IsApp(rawUrl) { // is app link
