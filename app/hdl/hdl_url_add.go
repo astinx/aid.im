@@ -59,17 +59,19 @@ func UrlAdd(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-	l := db.UrlGet(s[1])
-	if l != nil && l.Url == url.QueryEscape(s[1]) {
+	uri := url.QueryEscape(s[1])
+	l := db.UrlGet(uri)
+	if l != nil {
 		l.Url, _ = url.QueryUnescape(l.Url)
 		e.Output(w, http.StatusOK, "", l)
 		return
 	}
-	res, err := db.UrlAdd(s[0], url.QueryEscape(s[1]), rawCode, customId, cfg.Opt.MinLinkLen)
+	res, err := db.UrlAdd(s[0], uri, rawCode, customId, cfg.Opt.MinLinkLen)
 	if err != nil {
 		e.Output(w, http.StatusBadRequest, "err : "+err.Error(), nil)
 		return
 	}
+	res.Url = s[1]
 	go db.StaAdd(0, 1)
 	e.Output(w, http.StatusOK, "", res)
 	return

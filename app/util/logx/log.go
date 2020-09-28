@@ -16,7 +16,6 @@ type LogConfig struct {
 	IsStdOut        bool   `yaml:"is_stdout" json:"is_stdout" toml:"is_stdout"`
 	TimeFormat      string `yaml:"time_format" json:"time_format" toml:"time_format"` // second, milli, nano, standard, iso,
 	Encoding        string `yaml:"encoding" json:"encoding" toml:"encoding"`          // console, json
-	Skip            int    `yaml:"skip" json:"skip" toml:"skip"`
 
 	IsFileOut   bool   `yaml:"is_file_out" json:"is_file_out" toml:"is_file_out"`
 	FileDir     string `yaml:"file_dir" json:"file_dir" toml:"file_dir"`
@@ -38,10 +37,9 @@ func defaultLogger() *LogX {
 		IsStdOut:        true,
 		TimeFormat:      "standard",
 		Encoding:        "console",
-		Skip:            2,
 	}
 	writers := []zapcore.WriteSyncer{os.Stdout}
-	lg, lv := newZapLogger(setLogLevel(conf.Level), setLogLevel(conf.StacktraceLevel), conf.Encoding, conf.TimeFormat, conf.Skip, zapcore.NewMultiWriteSyncer(writers...))
+	lg, lv := newZapLogger(setLogLevel(conf.Level), setLogLevel(conf.StacktraceLevel), conf.Encoding, conf.TimeFormat, 2, zapcore.NewMultiWriteSyncer(writers...))
 	zap.RedirectStdLog(lg)
 	return &LogX{logger: lg, atomLevel: lv}
 }
@@ -56,7 +54,7 @@ func InitDefaultLogger(cfg *LogConfig) {
 		writers = append(writers, NewRollingFile(cfg.FileDir, cfg.FileName, cfg.FileMaxSize, cfg.FileMaxAge))
 	}
 
-	lg, lv := newZapLogger(setLogLevel(cfg.Level), setLogLevel(cfg.StacktraceLevel), cfg.Encoding, cfg.TimeFormat, cfg.Skip, zapcore.NewMultiWriteSyncer(writers...))
+	lg, lv := newZapLogger(setLogLevel(cfg.Level), setLogLevel(cfg.StacktraceLevel), cfg.Encoding, cfg.TimeFormat, 2, zapcore.NewMultiWriteSyncer(writers...))
 	zap.RedirectStdLog(lg)
 	if cfg.AppName != "" {
 		lg = lg.With(zap.String("app", cfg.AppName)) // 加上应用名称
@@ -74,7 +72,7 @@ func NewLogger(cfg *LogConfig) *LogX {
 		writers = append(writers, NewRollingFile(cfg.FileDir, cfg.FileName, cfg.FileMaxSize, cfg.FileMaxAge))
 	}
 
-	lg, lv := newZapLogger(setLogLevel(cfg.Level), setLogLevel(cfg.StacktraceLevel), cfg.Encoding, cfg.TimeFormat, cfg.Skip, zapcore.NewMultiWriteSyncer(writers...))
+	lg, lv := newZapLogger(setLogLevel(cfg.Level), setLogLevel(cfg.StacktraceLevel), cfg.Encoding, cfg.TimeFormat, 2, zapcore.NewMultiWriteSyncer(writers...))
 	zap.RedirectStdLog(lg)
 	lg = lg.With(zap.String("app", cfg.AppName)) // 加上应用名称
 	return &LogX{logger: lg, atomLevel: lv}

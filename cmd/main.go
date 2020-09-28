@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/middleware"
 
 	"aid.im/app/cfg"
 	"aid.im/app/db"
@@ -27,7 +28,7 @@ func init() {
 }
 func initRouter() *chi.Mux {
 	r := chi.NewRouter()
-	r.Use(mw.Cors)
+	r.Use(mw.Cors, middleware.Recoverer, middleware.RealIP)
 	r.Get("/ping", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("pong"))
 		return

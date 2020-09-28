@@ -7,7 +7,7 @@ import (
 
 func UrlGet(rawUrl string) *model.Link {
 	l := &model.Link{}
-	if res, err := db.Where(" url = ? ", rawUrl).Get(l); !res || err != nil {
+	if res, err := db.Where(" `url` = ? ", rawUrl).Get(l); !res || err != nil {
 		logx.Error(err)
 		return nil
 	}
