@@ -67,7 +67,7 @@
       <div class="input-group-append"><button class="btn btn-info btn-g" type="button" id="copy-link" data-clipboard-target="#tinyUrl" onclick="copyTarget(this.id)" i18n="text.copy">copy</button></div>
     </div></p>
   </div>
-  <p class="mt-5 mb-3 t-shadow">Copyright © AID.IM 2019 | aston.x(a)outlook.com</p>
+  <p class="mt-5 mb-3 t-shadow">Copyright © AID.IM 2019 | astinx(a)outlook.com</p>
 </div>
 
 <!-- ALERT -->
@@ -188,7 +188,7 @@
 
   /* get client browser language*/
   function getBrowserLang() {let lng = navigator.language;lng = navigator.language.substr(0, 2);return lng === 'zh' ?(navigator.language.toLowerCase() === 'zh-cn' ? 'zhs' : 'zht') : lng;}
-  let t = /(^ftp|tcp|udp|wss?|https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})|(^[a-zA-Z]{2,10}:\/\/\w+)/;
+  let t = /(^ftp|tcp|udp|wss?|https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})|(^[a-zA-Z0-9]{2,16}:\/\/\w+)/;
   let fn = function() {checkUrl = function() {$("#url-text").on("input", function() {$('#showQr').hide();$('#qrcode').text('');t.test($(this).val()) ? $("#url-btn").prop("disabled", !1) : $("#url-btn").prop("disabled", !0)})};return {init: function() {checkUrl()}}}();
   $(document).ready(function() {fn.init();});
   /*$('body').css('background-image','url("'+((window.screen.height > window.screen.width) ? 'bg2.jpg' : 'bg.jpg') +'")');*/
